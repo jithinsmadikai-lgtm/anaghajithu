@@ -140,7 +140,7 @@ button{
 
 <div class="card" id="card">
 
-<img src="IMG_E4760.JPG" class="top-img">
+<img src="images/IMG_E4760.JPG" class="top-img">
 
 <h1>Will You Be My Valentine? 💘</h1>
 
@@ -156,42 +156,40 @@ const noBtn=document.getElementById("noBtn");
 const yesBtn=document.getElementById("yesBtn");
 const card=document.getElementById("card");
 
-/* NO button movement for first NO button */
+/* NO button movement */
 let captions=["NO 🙈","Are you sure? 😢","Really sure? 🥺","Think again 😭","Last chance 😳"];
 let index=0;
 let moving=false;
 
-function moveButton(button){
+function moveButton(){
     if(moving) return;
     moving=true;
 
     let step=60;
-    let x=button.offsetLeft+(Math.random()>0.5?step:-step);
-    let y=button.offsetTop+(Math.random()>0.5?step:-step);
+    let x=noBtn.offsetLeft+(Math.random()>0.5?step:-step);
+    let y=noBtn.offsetTop+(Math.random()>0.5?step:-step);
 
-    x=Math.max(10,Math.min(window.innerWidth-button.offsetWidth-10,x));
-    y=Math.max(10,Math.min(window.innerHeight-button.offsetHeight-10,y));
+    x=Math.max(10,Math.min(window.innerWidth-noBtn.offsetWidth-10,x));
+    y=Math.max(10,Math.min(window.innerHeight-noBtn.offsetHeight-10,y));
 
-    button.style.left=x+"px";
-    button.style.top=y+"px";
+    noBtn.style.left=x+"px";
+    noBtn.style.top=y+"px";
 
-    if(button.id==="noBtn") {
-        index=(index+1)%captions.length;
-        button.innerText=captions[index];
-    }
+    index=(index+1)%captions.length;
+    noBtn.innerText=captions[index];
 
     setTimeout(()=>moving=false,300);
 }
 
-noBtn.addEventListener("mouseenter",()=>moveButton(noBtn));
-noBtn.addEventListener("touchstart",()=>moveButton(noBtn));
+noBtn.addEventListener("mouseenter",moveButton);
+noBtn.addEventListener("touchstart",moveButton);
 
 /* YES button click -> show love letter and Marry Me question */
 yesBtn.onclick=()=>{
     card.style.display="none";
 
     document.body.style.backgroundImage=
-    "linear-gradient(rgba(255,0,100,0.4), rgba(255,200,200,0.4)), url('b1.PNG')";
+    "linear-gradient(rgba(255,0,100,0.4), rgba(255,200,200,0.4)), url('images/b1.PNG')";
     document.body.style.backgroundSize="cover";
     document.body.style.backgroundPosition="center 45%";
     document.body.style.backgroundRepeat="no-repeat";
@@ -199,7 +197,7 @@ yesBtn.onclick=()=>{
     const div=document.createElement("div");
     div.className="celebration";
     div.innerHTML=`
-        <img class="love-letter" src="love-letter.jpg" alt="Love Letter">
+        <img class="love-letter" src="images/love-letter.jpg" alt="Love Letter">
         <h1>💌 Will You Marry Me? 💍</h1>
         <button id="marryYesBtn">YES 💖</button>
         <button id="marryNoBtn">NO 🙈</button>
@@ -209,14 +207,7 @@ yesBtn.onclick=()=>{
     const marryYesBtn = div.querySelector("#marryYesBtn");
     const marryNoBtn = div.querySelector("#marryNoBtn");
 
-    // make NO button move like first NO
-    marryNoBtn.style.position="absolute";
-    marryNoBtn.style.left="55%";
-    marryNoBtn.style.top="70%";
-    marryNoBtn.addEventListener("mouseenter",()=>moveButton(marryNoBtn));
-    marryNoBtn.addEventListener("touchstart",()=>moveButton(marryNoBtn));
-
-    // YES button click shows final words + hug GIF
+    // YES click shows final message with hug GIF
     marryYesBtn.onclick = ()=>{
         div.innerHTML=`
             <h1>💖 DEAR KUNJU!!! 💖</h1>
@@ -224,9 +215,26 @@ yesBtn.onclick=()=>{
                 "My heart has been yours since the moment I met you, <br>
                 and now officially, my life is too." 😍 💕
             </p>
-            <img class="hug" src="i-love-you.gif" alt="hug">
+            <img class="hug" src="images/i-love-you.gif" alt="hug">
         `;
     };
+
+    // NO click -> just move button like before
+    let marryMoving=false;
+    function moveMarryButton(){
+        if(marryMoving) return;
+        marryMoving=true;
+        let step=60;
+        let x=marryNoBtn.offsetLeft+(Math.random()>0.5?step:-step);
+        let y=marryNoBtn.offsetTop+(Math.random()>0.5?step:-step);
+        x=Math.max(10,Math.min(window.innerWidth-marryNoBtn.offsetWidth-10,x));
+        y=Math.max(10,Math.min(window.innerHeight-marryNoBtn.offsetHeight-10,y));
+        marryNoBtn.style.left=x+"px";
+        marryNoBtn.style.top=y+"px";
+        setTimeout(()=>marryMoving=false,300);
+    }
+    marryNoBtn.addEventListener("mouseenter",moveMarryButton);
+    marryNoBtn.addEventListener("touchstart",moveMarryButton);
 };
 
 /* floating hearts */
