@@ -74,7 +74,7 @@ button{
     100%{transform:translateY(-800px);opacity:0;}
 }
 
-/* celebration container */
+/* celebration text */
 .celebration{
     text-align:center;
     position:absolute;
@@ -91,7 +91,7 @@ button{
     animation:pulse 1.5s infinite alternate;
 }
 
-/* love message */
+/* message */
 .love-text{
     font-size:30px;
     font-weight:900;
@@ -219,7 +219,7 @@ yesBtn.onclick=()=>{
         `;
     };
 
-    // NO click -> move button like first NO button
+    // NO click -> move button like before
     let marryMoving=false;
     function moveMarryButton(){
         if(marryMoving) return;
@@ -229,3 +229,27 @@ yesBtn.onclick=()=>{
         let y=marryNoBtn.offsetTop+(Math.random()>0.5?step:-step);
         x=Math.max(10,Math.min(window.innerWidth-marryNoBtn.offsetWidth-10,x));
         y=Math.max(10,Math.min(window.innerHeight-marryNoBtn.offsetHeight-10,y));
+        marryNoBtn.style.left=x+"px";
+        marryNoBtn.style.top=y+"px";
+        marryNoBtn.style.position="absolute"; // ensure absolute
+        setTimeout(()=>marryMoving=false,300);
+    }
+    marryNoBtn.addEventListener("mouseenter",moveMarryButton);
+    marryNoBtn.addEventListener("touchstart",moveMarryButton);
+};
+
+/* floating hearts */
+setInterval(()=>{
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="💖";
+    heart.style.left=Math.random()*window.innerWidth+"px";
+    heart.style.bottom="0px";
+    heart.style.fontSize=(20+Math.random()*20)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+},500);
+</script>
+
+</body>
+</html>
