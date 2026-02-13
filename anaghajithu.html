@@ -53,6 +53,8 @@ button{
     font-size:18px;
     border-radius:30px;
     cursor:pointer;
+    position: relative;
+    z-index:10;
 }
 
 #yesBtn{ background:#e91e63;color:white; margin-right:10px; }
@@ -77,7 +79,7 @@ button{
 /* celebration screen */
 .celebration{
     text-align:center;
-    position:relative; /* relative now */
+    position:relative;
     top:20px;
     width:100%;
     pointer-events:auto; /* allow clicks */
@@ -106,7 +108,7 @@ button{
     width:350px;
     margin-top:25px;
     animation:letterBounce 2s infinite ease-in-out;
-    pointer-events:none; /* don't block buttons */
+    pointer-events:none; /* important so buttons are clickable */
 }
 
 /* hug GIF */
@@ -114,7 +116,7 @@ button{
     width:250px;
     margin-top:25px;
     animation:hugBounce 2s infinite ease-in-out;
-    pointer-events:none; /* don't block buttons */
+    pointer-events:none; /* important so buttons are clickable */
 }
 
 /* animations */
@@ -135,12 +137,6 @@ button{
     0%{transform:translateY(0);}
     50%{transform:translateY(-15px);}
     100%{transform:translateY(0);}
-}
-
-/* ensure buttons are clickable on celebration */
-.celebration button{
-    position:relative;
-    z-index:10;
 }
 </style>
 </head>
