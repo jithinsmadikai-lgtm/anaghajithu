@@ -74,12 +74,13 @@ button{
     100%{transform:translateY(-800px);opacity:0;}
 }
 
-/* celebration text */
+/* celebration screen */
 .celebration{
     text-align:center;
-    position:absolute;
-    top:20%;
+    position:relative; /* relative now */
+    top:20px;
     width:100%;
+    pointer-events:auto; /* allow clicks */
 }
 
 /* title */
@@ -105,6 +106,7 @@ button{
     width:350px;
     margin-top:25px;
     animation:letterBounce 2s infinite ease-in-out;
+    pointer-events:none; /* don't block buttons */
 }
 
 /* hug GIF */
@@ -112,6 +114,7 @@ button{
     width:250px;
     margin-top:25px;
     animation:hugBounce 2s infinite ease-in-out;
+    pointer-events:none; /* don't block buttons */
 }
 
 /* animations */
@@ -132,6 +135,12 @@ button{
     0%{transform:translateY(0);}
     50%{transform:translateY(-15px);}
     100%{transform:translateY(0);}
+}
+
+/* ensure buttons are clickable on celebration */
+.celebration button{
+    position:relative;
+    z-index:10;
 }
 </style>
 </head>
@@ -164,23 +173,17 @@ let moving=false;
 function moveButton(){
     if(moving) return;
     moving=true;
-
     let step=60;
     let x=noBtn.offsetLeft+(Math.random()>0.5?step:-step);
     let y=noBtn.offsetTop+(Math.random()>0.5?step:-step);
-
     x=Math.max(10,Math.min(window.innerWidth-noBtn.offsetWidth-10,x));
     y=Math.max(10,Math.min(window.innerHeight-noBtn.offsetHeight-10,y));
-
     noBtn.style.left=x+"px";
     noBtn.style.top=y+"px";
-
     index=(index+1)%captions.length;
     noBtn.innerText=captions[index];
-
     setTimeout(()=>moving=false,300);
 }
-
 noBtn.addEventListener("mouseenter",moveButton);
 noBtn.addEventListener("touchstart",moveButton);
 
@@ -219,7 +222,7 @@ yesBtn.onclick=()=>{
         `;
     };
 
-    // NO click -> move button like before
+    // NO click -> move button like first NO
     let marryMoving=false;
     function moveMarryButton(){
         if(marryMoving) return;
@@ -231,7 +234,6 @@ yesBtn.onclick=()=>{
         y=Math.max(10,Math.min(window.innerHeight-marryNoBtn.offsetHeight-10,y));
         marryNoBtn.style.left=x+"px";
         marryNoBtn.style.top=y+"px";
-        marryNoBtn.style.position="absolute"; // ensure absolute
         setTimeout(()=>marryMoving=false,300);
     }
     marryNoBtn.addEventListener("mouseenter",moveMarryButton);
