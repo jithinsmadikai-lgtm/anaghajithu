@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Valentine Surprise 💘</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:'Segoe UI',Arial;
+    overflow:hidden;
+    transition: background 1s;
+    background-size: cover;
+    background-position: center 45%;
+    background-repeat:no-repeat;
+}
+
+.card{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,0.2);
+    max-width:90%;
+    position:relative;
+}
+
+.top-img{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid #e91e63;
+    margin-bottom:15px;
+}
+
+h1{ color:#e91e63; }
+
+p{
+    font-size:18px;
+    color:#555;
+    margin-bottom:25px;
+}
+
+button{
+    border:none;
+    padding:14px 28px;
+    font-size:18px;
+    border-radius:30px;
+    cursor:pointer;
+}
+
+#yesBtn{ background:#e91e63;color:white; margin-right:10px; }
+#noBtn{
+    background:#ddd;
+    position:absolute;
+    left:55%;
+    top:75%;
+}
+
+/* floating hearts */
+.heart{
+    position:absolute;
+    color:#ff4d6d;
+    animation:float 6s linear infinite;
+}
+@keyframes float{
+    0%{transform:translateY(0);opacity:1;}
+    100%{transform:translateY(-800px);opacity:0;}
+}
+
+/* celebration text */
+.celebration{
+    text-align:center;
+    position:absolute;
+    top:20%;
+    width:100%;
+}
+
+/* title */
+.celebration h1{
+    font-size:70px;
+    font-weight:bold;
+    color:#ffffff;
+    text-shadow:0 0 10px #ff4d6d,0 0 25px #ff4d6d,0 0 45px #ff99cc;
+    animation:pulse 1.5s infinite alternate;
+}
+
+/* message */
+.love-text{
+    font-size:30px;
+    font-weight:900;
+    color:#ffffff;
+    text-shadow:0 0 10px #ff4d6d,0 0 25px #ff4d6d,0 0 45px #ff99cc;
+    animation:floatLove 3s ease-in-out infinite alternate;
+}
+
+/* love letter image */
+.love-letter{
+    width:350px;
+    margin-top:25px;
+    animation:letterBounce 2s infinite ease-in-out;
+}
+
+/* hug GIF */
+.hug{
+    width:250px;
+    margin-top:25px;
+    animation:hugBounce 2s infinite ease-in-out;
+}
+
+/* animations */
+@keyframes pulse{
+    0%{transform:scale(1);}
+    100%{transform:scale(1.2);}
+}
+@keyframes floatLove{
+    0%{transform:translateY(0);}
+    100%{transform:translateY(-12px);}
+}
+@keyframes letterBounce{
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-15px);}
+    100%{transform:translateY(0);}
+}
+@keyframes hugBounce{
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-15px);}
+    100%{transform:translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+
+<img src="IMG_E4760.JPG" class="top-img">
+
+<h1>Will You Be My Valentine? 💘</h1>
+
+<p>You make my world brighter every day ✨<br>So… what do you say?</p>
+
+<button id="yesBtn">YES 💖</button>
+<button id="noBtn">NO 🙈</button>
+
+</div>
+
+<script>
+const noBtn=document.getElementById("noBtn");
+const yesBtn=document.getElementById("yesBtn");
+const card=document.getElementById("card");
+
+/* NO button movement for first NO button */
+let captions=["NO 🙈","Are you sure? 😢","Really sure? 🥺","Think again 😭","Last chance 😳"];
+let index=0;
+let moving=false;
+
+function moveButton(button){
+    if(moving) return;
+    moving=true;
+
+    let step=60;
+    let x=button.offsetLeft+(Math.random()>0.5?step:-step);
+    let y=button.offsetTop+(Math.random()>0.5?step:-step);
+
+    x=Math.max(10,Math.min(window.innerWidth-button.offsetWidth-10,x));
+    y=Math.max(10,Math.min(window.innerHeight-button.offsetHeight-10,y));
+
+    button.style.left=x+"px";
+    button.style.top=y+"px";
+
+    if(button.id==="noBtn") {
+        index=(index+1)%captions.length;
+        button.innerText=captions[index];
+    }
+
+    setTimeout(()=>moving=false,300);
+}
+
+noBtn.addEventListener("mouseenter",()=>moveButton(noBtn));
+noBtn.addEventListener("touchstart",()=>moveButton(noBtn));
+
+/* YES button click -> show love letter and Marry Me question */
+yesBtn.onclick=()=>{
+    card.style.display="none";
+
+    document.body.style.backgroundImage=
+    "linear-gradient(rgba(255,0,100,0.4), rgba(255,200,200,0.4)), url('b1.PNG')";
+    document.body.style.backgroundSize="cover";
+    document.body.style.backgroundPosition="center 45%";
+    document.body.style.backgroundRepeat="no-repeat";
+
+    const div=document.createElement("div");
+    div.className="celebration";
+    div.innerHTML=`
+        <img class="love-letter" src="love-letter.jpg" alt="Love Letter">
+        <h1>💌 Will You Marry Me? 💍</h1>
+        <button id="marryYesBtn">YES 💖</button>
+        <button id="marryNoBtn">NO 🙈</button>
+    `;
+    document.body.appendChild(div);
+
+    const marryYesBtn = div.querySelector("#marryYesBtn");
+    const marryNoBtn = div.querySelector("#marryNoBtn");
+
+    // make NO button move like first NO
+    marryNoBtn.style.position="absolute";
+    marryNoBtn.style.left="55%";
+    marryNoBtn.style.top="70%";
+    marryNoBtn.addEventListener("mouseenter",()=>moveButton(marryNoBtn));
+    marryNoBtn.addEventListener("touchstart",()=>moveButton(marryNoBtn));
+
+    // YES button click shows final words + hug GIF
+    marryYesBtn.onclick = ()=>{
+        div.innerHTML=`
+            <h1>💖 DEAR KUNJU!!! 💖</h1>
+            <p class="love-text">
+                "My heart has been yours since the moment I met you, <br>
+                and now officially, my life is too." 😍 💕
+            </p>
+            <img class="hug" src="i-love-you.gif" alt="hug">
+        `;
+    };
+};
+
+/* floating hearts */
+setInterval(()=>{
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="💖";
+    heart.style.left=Math.random()*window.innerWidth+"px";
+    heart.style.bottom="0px";
+    heart.style.fontSize=(20+Math.random()*20)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+},500);
+</script>
+
+</body>
+</html>
